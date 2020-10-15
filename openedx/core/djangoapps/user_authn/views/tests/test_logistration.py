@@ -28,7 +28,6 @@ from openedx.core.djangoapps.site_configuration.tests.factories import SiteConfi
 from openedx.core.djangoapps.site_configuration.tests.mixins import SiteMixin
 from openedx.core.djangoapps.theming.tests.test_util import with_comprehensive_theme_context
 from openedx.core.djangoapps.user_authn.views.login_form import login_and_registration_form
-from openedx.core.djangoapps.waffle_utils.testutils import override_waffle_flag
 from openedx.core.djangolib.js_utils import dump_js_escaped_json
 from openedx.core.djangolib.markup import HTML, Text
 from openedx.core.djangolib.testing.utils import skip_unless_lms
