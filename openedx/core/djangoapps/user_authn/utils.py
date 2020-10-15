@@ -67,3 +67,10 @@ def is_registration_api_v1(request):
     :return: Bool
     """
     return 'v1' in request.get_full_path() and 'register' not in request.get_full_path()
+
+
+def should_redirect_to_logistration_mircrofrontend():
+    """
+    Checks if login/registration should be done via MFE.
+    """
+    return settings.FEATURES.get('ENABLE_LOGISTRATION_MICROFRONTEND')

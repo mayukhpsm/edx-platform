@@ -26,7 +26,6 @@ from openedx.core.djangoapps.password_policy.compliance import (
     NonCompliantPasswordWarning
 )
 from openedx.core.djangoapps.user_api.accounts import EMAIL_MIN_LENGTH, EMAIL_MAX_LENGTH
-from openedx.core.djangoapps.user_api.accounts.toggles import REDIRECT_TO_ACCOUNT_MICROFRONTEND
 from openedx.core.djangoapps.user_authn.cookies import jwt_cookies
 from openedx.core.djangoapps.user_authn.views.login import (
     AllowedAuthUser,
@@ -152,13 +151,12 @@ class LoginTest(SiteMixin, CacheIsolationTestCase):
         if course_id:
             post_params['course_id'] = course_id
 
-        with override_waffle_flag(REDIRECT_TO_ACCOUNT_MICROFRONTEND, active=True):
-            response, _ = self._login_response(
-                self.user_email,
-                self.password,
-                extra_post_params=post_params,
-                HTTP_ACCEPT='*/*',
-            )
+        response, _ = self._login_response(
+            self.user_email,
+            self.password,
+            extra_post_params=post_params,
+            HTTP_ACCEPT='*/*',
+        )
         self._assert_response(response, success=True)
         self._assert_redirect_url(response, expected_redirect)
 
