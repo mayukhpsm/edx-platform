@@ -13,6 +13,20 @@ import six
 log = logging.getLogger(__name__)
 
 
+def route_task_queue(name, explicit_queues, alternate_env_tasks):
+    """
+    Helper method allowing for custom routing logic.
+
+    If None is returned from this method, default routing logic is used.
+    """
+    if name in explicit_queues:
+        return explicit_queues[name]
+
+    alternate_env = alternate_env_tasks.get(name, None)
+    if alternate_env:
+        return ensure_queue_env(alternate_env)
+
+
 def ensure_queue_env(desired_env):
     """
     Helper method to get the desired type of queue.
