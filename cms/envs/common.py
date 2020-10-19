@@ -2298,18 +2298,3 @@ PASSWORD_RESET_EMAIL_RATE = '2/h'
 
 ######################## Setting for content libraries ########################
 MAX_BLOCKS_PER_CONTENT_LIBRARY = 1000
-
-######################## CELERY ROTUING ########################
-
-# Defines alternate environment tasks, as a dict of form { task_name: alternate_queue }
-ALTERNATE_ENV_TASKS = {
-    'completion_aggregator.tasks.update_aggregators': 'lms',
-    'openedx.core.djangoapps.content.block_structure.tasks.update_course_in_cache': 'lms',
-    'openedx.core.djangoapps.content.block_structure.tasks.update_course_in_cache_v2': 'lms',
-}
-
-# Defines the task -> alternate worker queue to be used when routing.
-EXPLICIT_QUEUES = {
-    'lms.djangoapps.grades.tasks.compute_all_grades_for_course': {
-        'queue': POLICY_CHANGE_GRADES_ROUTING_KEY},
-}

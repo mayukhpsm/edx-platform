@@ -4132,24 +4132,3 @@ MAX_BLOCKS_PER_CONTENT_LIBRARY = 1000
 # COUNTRIES_FIRST = ['SA', 'BH', 'QA'] will display these countries on top of the list
 # https://github.com/SmileyChris/django-countries#show-certain-countries-first
 COUNTRIES_FIRST = []
-
-######################## CELERY ROUTING ########################
-
-# Defines alternate environment tasks, as a dict of form { task_name: alternate_queue }
-ALTERNATE_ENV_TASKS = {}
-
-# Defines the task -> alternate worker queue to be used when routing.
-EXPLICIT_QUEUES = {
-    'openedx.core.djangoapps.content.course_overviews.tasks.async_course_overview_update': {
-        'queue': GRADES_DOWNLOAD_ROUTING_KEY},
-    'lms.djangoapps.bulk_email.tasks.send_course_email': {
-        'queue': BULK_EMAIL_ROUTING_KEY},
-    'openedx.core.djangoapps.heartbeat.tasks.sample_task': {
-        'queue': HEARTBEAT_CELERY_ROUTING_KEY},
-    'lms.djangoapps.instructor_task.tasks.calculate_grades_csv': {
-        'queue': GRADES_DOWNLOAD_ROUTING_KEY},
-    'lms.djangoapps.instructor_task.tasks.calculate_problem_grade_report': {
-        'queue': GRADES_DOWNLOAD_ROUTING_KEY},
-    'lms.djangoapps.instructor_task.tasks.generate_certificates': {
-        'queue': GRADES_DOWNLOAD_ROUTING_KEY},
-}
