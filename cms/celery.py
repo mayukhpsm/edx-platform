@@ -11,7 +11,7 @@ import os
 from celery import Celery
 from django.conf import settings
 
-from openedx.core.lib.celery.routers import route_task_queue
+from openedx.core.lib.celery.routers import ensure_queue_env
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proj.settings')
@@ -31,5 +31,17 @@ def route_task(name, args, kwargs, options, task=None, **kw):  # pylint: disable
 
     If None is returned from this method, default routing logic is used.
     """
+    # Defines alternate environment tasks, as a dict of form { task_name: alternate_queue }
+    alternate_env_tasks = settings.ALTERNATE_ENV_TASKS
 
-    return route_task_queue(name, settings.EXPLICIT_QUEUES, settings.ALTERNATE_ENV_TASKS)
+    # Defines the task -> alternate worker queue to be used when routing.
+    explicit_queues = settings.EXPLICIT_QUEUES
+
+    if name in explicit_queues:
+        return explicit_queues[name]
+
+    alternate_env = alternate_env_tasks.get(name, None)
+    if alternate_env:
+        return ensure_queue_env(alternate_env)
+
+    return None
